@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gba_calculator/controller/courses_cubit.dart';
 import 'package:gba_calculator/views/home_page.dart';
 import 'package:gba_calculator/widgets/next_photo.dart';
 
@@ -36,9 +38,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) {
-            return HomePage();
-          },
+          builder: (context) => BlocProvider.value(
+            value: BlocProvider.of<CoursesCubit>(context),
+            child: HomePage(),)
         ),
       );
     }
