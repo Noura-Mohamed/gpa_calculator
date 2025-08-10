@@ -19,11 +19,6 @@ class CoursesCubit extends Cubit<CourseState> {
     emit(CourseLoaded(courses: courses, tempCourses: tempCourses));
   }
 
-  void addCourseField() {
-    tempCourses.add(CourseModel(courseName: '', hourse: 0, grade: ''));
-    loadCourses();
-  }
-
   void addTempCourse() {
     tempCourses.add(CourseModel(courseName: '', hourse: 0, grade: ''));
     emit(
@@ -42,14 +37,6 @@ class CoursesCubit extends Cubit<CourseState> {
       grade: grade ?? course.grade,
     );
     loadCourses();
-  }
-
-  void saveCoursesAndCalculateGPA() {
-    for (var course in tempCourses) {
-      courseBox.add(course);
-    }
-    tempCourses.clear();
-    calculateGPA();
   }
 
   void calculateGPA() {
@@ -105,8 +92,6 @@ class CoursesCubit extends Cubit<CourseState> {
     }
   }
 
-  void updateTempCourseName(int i, String val) {}
-
   void resetCourses() {
     tempCourses.clear();
     if (state is CourseLoaded) {
@@ -125,6 +110,7 @@ class CoursesCubit extends Cubit<CourseState> {
 
   void updateSemesterName(String name) {
     semesterName = name;
+    gpaBox.put('last_semester', name);
     if (state is CourseLoaded) {
       final currentState = state as CourseLoaded;
       emit(
@@ -132,20 +118,6 @@ class CoursesCubit extends Cubit<CourseState> {
           courses: currentState.courses,
           tempCourses: currentState.tempCourses,
           gpa: currentState.gpa,
-        ),
-      );
-    }
-  }
-
-  void loadGpa() {
-    final savedGpa = gpaBox.get('last_gpa');
-    if (savedGpa != null && state is CourseLoaded) {
-      final currentState = state as CourseLoaded;
-      emit(
-        CourseLoaded(
-          courses: currentState.courses,
-          tempCourses: currentState.tempCourses,
-          gpa: savedGpa,
         ),
       );
     }

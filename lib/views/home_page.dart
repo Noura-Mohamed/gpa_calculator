@@ -28,14 +28,10 @@ class HomePage extends StatelessWidget {
           child: BlocConsumer<CoursesCubit, CourseState>(
             listener: (context, state) {
               if (state is CourseLoaded && state.gpa != null) {
-                final cubit = context.read<CoursesCubit>();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => GpaResultPage(
-                      gpa: state.gpa!,
-                      semesterName: cubit.semesterName,
-                    ),
+                    builder: (_) => GpaResultPage(),
                   ),
                 );
               }
@@ -75,7 +71,7 @@ class HomePage extends StatelessWidget {
                                 child: TextFieldInput(
                                   text: 'Course name',
                                   onChanged: (val) {
-                                    cubit.updateTempCourseName(i, val);
+                                    cubit.updateTempCourse(i, name: val);
                                   },
                                 ),
                               ),

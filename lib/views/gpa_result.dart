@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class GpaResultPage extends StatelessWidget {
-  final double gpa;
-  final String semesterName;
 
-  const GpaResultPage({
-    super.key,
-    required this.gpa,
-    required this.semesterName,
-  });
+
+  const GpaResultPage({super.key,});
 
   @override
   Widget build(BuildContext context) {
+    final Box gpaBox = Hive.box('gpa_box');
+    final double gpa = gpaBox.get('last_gpa', defaultValue: 0.0);
+    final String semesterName = gpaBox.get(
+      'last_semester',
+      defaultValue: 'Unknown Semester',
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text('GPA Result'),
